@@ -86,5 +86,8 @@ jobs:
       # ``check:*`` script needs no change here. An empty list is an error and
       # not an empty run, because an empty run reports green after it checks
       # nothing.
+      - name: Test workspace-check runner
+        run: node --test .github/scripts/run-workspace-checks.test.mjs
+
       - name: Run all workspace checks
         run: node .github/scripts/run-workspace-checks.mjs

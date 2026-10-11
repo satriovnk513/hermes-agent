@@ -93,12 +93,12 @@ async function main() {
   const flagIdx = argv.indexOf('--concurrency')
   const requestedConcurrency =
     flagIdx !== -1 ? Number(argv[flagIdx + 1]) : Math.min(units.length, availableParallelism())
-  if (!Number.isFinite(requestedConcurrency)) {
-    console.error('::error::--concurrency must be a finite number')
+  if (!Number.isFinite(requestedConcurrency) || !Number.isInteger(requestedConcurrency)) {
+    console.error('::error::--concurrency must be a finite integer')
     process.exitCode = 1
     return
   }
-  const concurrency = Math.max(1, requestedConcurrency)
+  const concurrency = Math.min(Math.max(1, requestedConcurrency), units.length)
 
   console.log(`running ${units.length} checks, up to ${concurrency} at a time:`)
   for (const u of units) console.log(`  ${u.pkg} :: ${u.script}`)
